@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         if (viewParent != null) {
             ViewGroup viewGroup = (ViewGroup) viewParent;
 
-            // Iterate through all the child view until the first edit text is found
+            // Iterate through all the child views until the first edit text is found
             for (int childPosition = 0; childPosition < viewGroup.getChildCount(); childPosition++) {
                 View view = viewGroup.getChildAt(childPosition);
 
