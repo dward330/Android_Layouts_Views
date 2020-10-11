@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,26 @@ public class MainActivity extends AppCompatActivity {
     * - Adds a Button to the layout
     */
     public void AddNew(View view) {
+        //Get Current Sibling EditText View
+        EditText currentEditText = this.getEditViewFromViewParent(view.getParent());
+
+        switch (currentEditText.getText().toString().trim().toUpperCase()) {
+            case "H":
+                this.AddNewHorizontalControl();
+                break;
+            default:
+                this.AddNewVerticalControl(view);
+                break;
+        }
+    }
+
+    /*
+     * Adds new Vertical Layout Control
+     * - Creates a new linear layout (horizontal)
+     * - Adds a Edit Text View to the layout
+     * - Adds a Button to the layout
+     */
+    public void AddNewVerticalControl(View view) {
         //Get Current Sibling EditText View
         EditText currentEditText = this.getEditViewFromViewParent(view.getParent());
 
@@ -83,5 +104,44 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return editText;
+    }
+
+    /*
+    * Adds new Horizontal Layout Control
+    */
+    public void AddNewHorizontalControl() {
+        // Create Horizontal View
+        HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
+        LinearLayout.LayoutParams scrollViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        horizontalScrollView.setLayoutParams(scrollViewParams);
+
+        // Create Linear Layout
+        final LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setPadding(0,5,0,0);
+        horizontalScrollView.addView(linearLayout);
+
+        // Create Button
+        this.AddNewButton(linearLayout);
+
+        // Add Horizontal View to main layout
+        LinearLayout mainLayout = findViewById(R.id.rootContainer);
+        mainLayout.addView(horizontalScrollView);
+    }
+
+    /*
+    * Adds Button to Linear Layout
+    */
+    public void AddNewButton(final LinearLayout linearLayout) {
+        Button button = new Button(this);
+        Integer numOfChildren = linearLayout.getChildCount() + 1;
+        button.setText(numOfChildren.toString());
+        linearLayout.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddNewButton(linearLayout);
+            }
+        });
     }
 }
