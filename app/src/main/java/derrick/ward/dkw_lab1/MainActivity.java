@@ -9,6 +9,7 @@ import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    /*
+    * Event Handler for when Add New Button is clicked in landscape mode
+    * - Will add SU Logo to the existing linear layout
+    */
+    public void AddNewInLandscape(View view) {
+        LinearLayout linearLayout = findViewById(R.id.rootContainer);
+
+        // Create Image View
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.mipmap.su_logo);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(600, 600, 1f);
+        imageView.setLayoutParams(layoutParams);
+
+        // Add Image View to Linear Layout
+        linearLayout.addView(imageView);
     }
 
     /*
@@ -31,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         switch (currentEditText.getText().toString().trim().toUpperCase()) {
             case "H":
-                this.AddNewHorizontalControl();
+                this.AddNewHorizontalView();
                 break;
             default:
-                this.AddNewVerticalControl(view);
+                this.AddNewVerticalView(view);
                 break;
         }
     }
@@ -45,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
      * - Adds a Edit Text View to the layout
      * - Adds a Button to the layout
      */
-    public void AddNewVerticalControl(View view) {
+    public void AddNewVerticalView(View view) {
         //Get Current Sibling EditText View
         EditText currentEditText = this.getEditViewFromViewParent(view.getParent());
 
@@ -109,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     /*
     * Adds new Horizontal Layout Control
     */
-    public void AddNewHorizontalControl() {
+    public void AddNewHorizontalView() {
         // Create Horizontal View
         HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
         LinearLayout.LayoutParams scrollViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
